@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Encore - Transform any String</title>
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+  <div data-tauri-drag-region class="titlebar">
+    <div class="titlebar-button" id="titlebar-minimize">
+      <img
+        src="https://api.iconify.design/mdi:window-minimize.svg?color=%23fff"
+        alt="minimize"
+      />
+    </div>
+    <div class="titlebar-button" id="titlebar-maximize">
+      <img
+        src="https://api.iconify.design/mdi:window-maximize.svg?color=%23fff"
+        alt="maximize"
+      />
+    </div>
+    <div class="titlebar-button" id="titlebar-close">
+      <img
+        src="https://api.iconify.design/mdi:close.svg?color=%23fff"
+        alt="close"
+      />
+    </div>
+  </div>
+  <body>
+    <div class="container">
+      <!-- <h1>Welcome to Encore!</h1> -->
+
+      <div>
+        <img
+          src="/src/assets/encore_logo.png"
+          class="logo encore"
+          alt="Encore logo"
+        />
+      </div>
+
+      <section>
+        <h2>Encore - Transform any String</h2>
+
+        <form id="transform-form">
+          <div class="up-in-toggle">
+            <!-- <span class="transform-text">Select transformation:</span> -->
+            <input
+              type="radio"
+              id="switch_left"
+              name="switch_2"
+              value="encode"
+            />
+            <label for="switch_left">Encode</label>
+            <input
+              type="radio"
+              id="switch_right"
+              name="switch_2"
+              value="decode"
+              checked
+            />
+            <label for="switch_right">Decode</label>
+          </div>
+          <input
+            id="encoded-input"
+            placeholder="Enter a string to transform..."
+          />
+          <span class="transform-form__error"></span>
+          <div class="transform-form__btns">
+            <button class="clear-input">Clear</button>
+            <button type="submit">Transform</button>
+          </div>
+        </form>
+
+        <div class="encoded-block">
+          <p id="encoded-block__str"></p>
+          <button class="encoded-block__btn">Copy</button>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
