@@ -59,7 +59,7 @@
 }
 
 .container section {
-  width: 35vw;
+  width: 45vw;
   margin: 0 auto;
 }
 
@@ -197,23 +197,58 @@ button {
 .encoded-block {
   margin-top: 2.5em;
   display: none;
-  justify-content: center;
   align-items: center;
   gap: 1em;
+  border: 1px dotted #fff;
+  margin-left: 15px;
+  margin-right: 15px;
+  background: #0f2027; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #2c5364,
+    #203a43,
+    #0f2027
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #2c5364,
+    #203a43,
+    #0f2027
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-#encoded-block__str {
+.encoded-block__action {
+  margin-left: 10px;
+  text-transform: uppercase;
+}
+
+.encoded-block__str {
   font-size: 1.2em;
-  font-weight: 500;
+  word-break: break-all;
+  white-space: normal;
 }
 
 .encoded-block__btn {
-  padding: 0.4em 0.8em;
+  padding: 0.8em 1.2em;
   font-size: 0.8em;
+  margin-left: auto;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
 }
 
 .transform-form__error {
   display: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
 }
 
 @media (max-width: 600px) {

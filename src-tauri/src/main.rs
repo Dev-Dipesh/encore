@@ -7,39 +7,41 @@ const ACCEPTABLE_CHARS: &str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
-fn transform(user_string: &str, action: &str) -> String {
+fn transform(user_string: &str, shift: i32, action: &str) -> String {
     trace!("Commencing transformation...");
     if action == "encode" {
         info!("Encoding string");
-        encrypt(user_string, 3)
+        encrypt(user_string, shift)
     } else {
         info!("Decoding string");
-        decrypt(user_string, 3)
+        decrypt(user_string, shift)
     }
 }
 
-fn encrypt(input: &str, shift: usize) -> String {
+fn encrypt(input: &str, shift: i32) -> String {
     let acceptable_chars: Vec<char> = ACCEPTABLE_CHARS.chars().collect();
+    let len = acceptable_chars.len() as i32;
     let mut encrypted = String::new();
 
     for ch in input.chars() {
         if let Some(pos) = acceptable_chars.iter().position(|&c| c == ch) {
-            let new_pos = (pos + shift) % acceptable_chars.len();
-            encrypted.push(acceptable_chars[new_pos]);
+            let new_pos = (pos as i32 + shift).rem_euclid(len);
+            encrypted.push(acceptable_chars[new_pos as usize]);
         }
     }
 
     encrypted
 }
 
-fn decrypt(encrypted: &str, shift: usize) -> String {
+fn decrypt(input: &str, shift: i32) -> String {
     let acceptable_chars: Vec<char> = ACCEPTABLE_CHARS.chars().collect();
+    let len = acceptable_chars.len() as i32;
     let mut decrypted = String::new();
 
-    for ch in encrypted.chars() {
+    for ch in input.chars() {
         if let Some(pos) = acceptable_chars.iter().position(|&c| c == ch) {
-            let new_pos = (pos + acceptable_chars.len() - shift) % acceptable_chars.len();
-            decrypted.push(acceptable_chars[new_pos]);
+            let new_pos = (pos as i32 - shift).rem_euclid(len);
+            decrypted.push(acceptable_chars[new_pos as usize]);
         }
     }
 

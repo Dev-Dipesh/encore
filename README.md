@@ -2,7 +2,7 @@
 
 ### A simple text encoder/decoder multi-platform desktop application to protect your sensitive information.
 
-![ENCORE](encore.png)
+![ENCORE](encore-1.png)
 
 ## Recommended IDE Setup
 

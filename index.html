@@ -50,6 +50,7 @@
               id="switch_left"
               name="switch_2"
               value="encode"
+              checked
             />
             <label for="switch_left">Encode</label>
             <input
@@ -57,13 +58,21 @@
               id="switch_right"
               name="switch_2"
               value="decode"
-              checked
             />
             <label for="switch_right">Decode</label>
           </div>
           <input
             id="encoded-input"
             placeholder="Enter a string to transform..."
+            spellcheck="false"
+            autocomplete="off"
+          />
+          <input
+            type="number"
+            id="shift"
+            min="3"
+            max="1000"
+            placeholder="Shift by 3-1000"
           />
           <span class="transform-form__error"></span>
           <div class="transform-form__btns">
@@ -73,8 +82,15 @@
         </form>
 
         <div class="encoded-block">
-          <p id="encoded-block__str"></p>
-          <button class="encoded-block__btn">Copy</button>
+          <p class="encoded-block__action"></p>
+          <p class="encoded-block__str"></p>
+          <button class="encoded-block__btn">
+            <img
+              src="https://api.iconify.design/uiw:copy.svg?color=%23fff"
+              alt="minimize"
+            />
+            Copy
+          </button>
         </div>
       </section>
     </div>

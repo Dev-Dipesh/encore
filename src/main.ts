@@ -2,7 +2,9 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { appWindow } from "@tauri-apps/api/window";
 
 let transformInputEl: HTMLInputElement | null;
+let transformShiftEl: HTMLInputElement | null;
 let transformMsgEl: HTMLElement | null;
+let transformActionType: HTMLElement | null;
 let transformFormErrorEl: HTMLElement | null;
 let encodedBlockDiv: HTMLElement | null;
 let encodedBlockBtn: HTMLElement | null;
@@ -29,33 +31,48 @@ function toggleFormError(err: string, show: boolean) {
 }
 
 async function transform() {
-  if (transformMsgEl && transformInputEl) {
+  if (
+    transformMsgEl &&
+    transformInputEl &&
+    transformShiftEl &&
+    transformActionType
+  ) {
+    const action = getSelectedValue();
+
+    if (action === "encode") {
+      transformActionType.textContent = "Encoded:";
+    } else {
+      transformActionType.textContent = "Decoded:";
+    }
+
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
     transformMsgEl.textContent = await invoke("transform", {
       userString: transformInputEl.value.trim(),
+      shift: parseInt(transformShiftEl.value),
       action: getSelectedValue(),
     });
   }
 }
 
-function copyText() {
+async function copyText() {
   if (transformMsgEl) {
     const text = transformMsgEl.innerText;
-    const textarea = document.createElement("textarea");
-    textarea.value = text;
-    textarea.style.position = "absolute";
-    textarea.style.left = "-9999px";
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textarea);
-    alert("Text copied to clipboard: " + text);
+
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("Text copied to clipboard: " + text);
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+      alert("Failed to copy text");
+    }
   }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   transformInputEl = document.querySelector("#encoded-input");
-  transformMsgEl = document.querySelector("#encoded-block__str");
+  transformShiftEl = document.querySelector("#shift");
+  transformMsgEl = document.querySelector(".encoded-block__str");
+  transformActionType = document.querySelector(".encoded-block__action");
   transformFormErrorEl = document.querySelector(".transform-form__error");
   encodedBlockDiv = document.querySelector(".encoded-block");
   encodedBlockBtn = document.querySelector(".encoded-block__btn");
@@ -72,10 +89,12 @@ window.addEventListener("DOMContentLoaded", () => {
 
   document.querySelector("#transform-form")?.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (transformInputEl?.value !== "") {
+    if (transformInputEl?.value !== "" && transformShiftEl?.value !== "") {
       toggleFormError("", false);
       transform();
       if (encodedBlockDiv) encodedBlockDiv.style.display = "flex";
+    } else if (transformShiftEl?.value === "") {
+      toggleFormError("Please enter a shift value", true);
     } else {
       toggleFormError("Please enter a string to transform", true);
     }
@@ -92,6 +111,7 @@ window.addEventListener("DOMContentLoaded", () => {
       transformInputEl.value = "";
       toggleFormError("", false);
     }
+    if (transformShiftEl) transformShiftEl.value = "";
     if (encodedBlockDiv) encodedBlockDiv.style.display = "none";
   });
 });
