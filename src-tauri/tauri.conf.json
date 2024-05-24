@@ -45,7 +45,7 @@
     },
     "bundle": {
       "active": true,
-      "targets": "nsis",
+      "targets": "all",
       "identifier": "com.encore.app",
       "icon": [
         "icons/32x32.png",
